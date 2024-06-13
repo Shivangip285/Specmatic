@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>in.specmatic</groupId>
-    <artifactId>coding-test</artifactId>
+    <artifactId>spring-boot-rest-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Coding Test</name>
     <description>Specmatic Coding Tests</description>
@@ -44,7 +44,11 @@
             <version>${spring.boot.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -65,6 +69,7 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
         <dependency>
@@ -126,6 +131,12 @@
             <version>${mockk.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -172,7 +183,6 @@
                     <encoding>UTF-8</encoding>
                     <source>${maven.compiler}</source>
                     <target>${maven.compiler}</target>
-                    <compilerArgument>-Werror</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
@@ -189,7 +199,7 @@
                 <version>2.3.4.RELEASE</version>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>com.store.Application</mainClass>
+                    <mainClass>com.store.MainAppKt</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -224,6 +234,33 @@
                         <exclude>**/APIKeyAuthFilter.*</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/products_api.yaml
+                            </inputSpec>
+                            <generatorName>kotlin-spring</generatorName>
+                            <modelNameSuffix>Dto</modelNameSuffix>
+                            <configOptions>
+                                <basePackage>to.dev.petstoreapi</basePackage>
+                                <apiPackage>to.dev.petstoreapi.api</apiPackage>
+                                <modelPackage>to.dev.petstoreapi.model</modelPackage>
+                                <configPackage>to.dev.petstoreapi.config</configPackage>
+                                <delegatePattern>true</delegatePattern>
+                                <interfaceOnly>false</interfaceOnly>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
