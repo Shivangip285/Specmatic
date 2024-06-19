@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/products")
-class ProductsController {
+class Products {
 
     private val products = mutableListOf<Product>()
     private var currentId = 1
